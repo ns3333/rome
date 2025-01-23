@@ -51,8 +51,6 @@ def apply_rome_to_model(
 
                 w[...] += upd_matrix
 
-        print(f"New weights successfully inserted into {list(deltas.keys())}")
-
     return model, weights_copy
 
 
@@ -72,10 +70,6 @@ def execute_rome(
     if request["target_new"]["str"][0] != " ":
         # Space required for correct tokenization
         request["target_new"]["str"] = " " + request["target_new"]["str"]
-    print(
-        f"Executing ROME algorithm for the update: "
-        f"[{request['prompt'].format(request['subject'])}] -> [{request['target_new']['str']}]"
-    )
 
     # Retrieve weights that user desires to change
     weights = {
@@ -99,7 +93,6 @@ def execute_rome(
             layer,
             get_context_templates(model, tok, hparams.context_template_length_params),
         )
-        print("Left vector shape:", left_vector.shape)
         right_vector: torch.Tensor = compute_v(
             model,
             tok,
@@ -109,7 +102,6 @@ def execute_rome(
             left_vector,
             get_context_templates(model, tok, hparams.context_template_length_params),
         )
-        print("Right vector shape:", right_vector.shape)
 
         with torch.no_grad():
             # Determine correct transposition of delta matrix
@@ -128,8 +120,6 @@ def execute_rome(
     with torch.no_grad():
         for k, v in weights.items():
             v[...] = weights_copy[k]
-
-    print(f"Deltas successfully computed for {list(weights.keys())}")
 
     return deltas
 
@@ -171,7 +161,5 @@ def get_context_templates(model, tok, length_params):
                 [],
             )
         ]
-
-        print(f"Cached context templates {CONTEXT_TEMPLATES_CACHE}")
 
     return CONTEXT_TEMPLATES_CACHE
