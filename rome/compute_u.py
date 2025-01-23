@@ -67,8 +67,6 @@ def compute_u(
     Computes the right vector used in constructing the rank-1 update matrix.
     """
 
-    print("Computing left vector (u)...")
-
     # Compute projection token
     word_repr_args = dict(
         model=model,
@@ -100,7 +98,6 @@ def compute_u(
             idxs=[[-1] for _ in range(len(context_templates))],
             **word_repr_args,
         ).mean(0)
-        print("Selected u projection token with last token")
     else:
         raise ValueError(f"fact_token={hparams.fact_token} not recognized")
 
