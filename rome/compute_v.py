@@ -141,14 +141,16 @@ def compute_v(
             torch.norm(delta) / torch.norm(target_init) ** 2
         )
         # weight_decay = hparams.v_weight_decay * torch.norm(delta) ** 2
+        nll_loss = -nll_loss  # updating to minus because we want to drive the target (which is now the original data) away 
         loss = nll_loss + kl_loss + weight_decay
         print(
             f"loss {np.round(loss.item(), 3)} = {np.round(nll_loss.item(), 3)} + {np.round(kl_loss.item(), 3)} + {np.round(weight_decay.item(), 3)} "
             f"avg prob of [{request['target_new']['str']}] "
             f"{torch.exp(-nll_loss_each).mean().item()}"
         )
-        if loss < 5e-2:
-            break
+        # since we are targeting negative loss this if is problemtic, we don't because we have another contraints on number of runs 
+        # if loss < 5e-2:
+        #    break
 
         if it == hparams.v_num_grad_steps - 1:
             break
