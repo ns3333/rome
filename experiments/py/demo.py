@@ -44,7 +44,7 @@ def test_model_erasing(
     pre_update_neighborhood = generate_fast(model, tok, neighborhood_prompts, max_out_len=max_out_len)
 
     model_new, orig_weights = apply_method(
-        model, tok, requests, hparams, return_orig_weights=True
+        model, tok, [request], hparams, return_orig_weights=True
     )
 
     post_update_generation = generate_fast(
