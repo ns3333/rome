@@ -139,7 +139,7 @@ def compute_v(
         nll_loss = -nll_loss  # updating to minus because we want to drive the target (which is now the original data) away 
         loss = nll_loss + kl_loss + weight_decay
         
-        # since we are targeting negative loss this if is problemtic, we don't because we have another contraints on number of runs 
+        # since we are targeting negative loss this if is problemtic, It's ok because we have another contraints on number of runs 
         # if loss < 5e-2:
         #    break
 
